@@ -1,0 +1,3 @@
+node_modules/
+
+# No agregar nunca el archivo package-lock.json!
