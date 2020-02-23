@@ -64,3 +64,30 @@
 				Son los módulos que escribimos en nuestra aplicación
 
 			- Third Party
+
+	6. Importaciones parciales
+
+		Cuando desde un módulo mío hago algo como:
+
+			module.exports = { funcion1, funcion2 }
+
+			Esto se conoce como una EXPORTACIÓN GLOBAL
+
+		Para realizar exportaciones parciales, se debe exportar cada función
+			de la siguiente manera:
+
+				module.exports.inf = function info (param) {
+
+		Para realicar importaciones parciales, se debe importar cada función
+			de la siguiente manera:
+
+				var { funcion1, funcion2 } = require('./modules/my-log')
+
+		Otra manera de hacer una exportación parcial es escribir lo siguiente
+			solo al final del archivo que tiene las funciones que deseo exportar:
+
+				module.exports.info = info	// aquí exporto la función "info" (que debe
+				haber sido declarada más arriba en mi arhcivo), con el nombre "info" (el
+				cual debe ser el utilizado cuando se haga el require).
+				* No es obligatorio que el nombre con el que se exporta sea igual al nombre
+					de la función.
