@@ -46,9 +46,21 @@
 			- Core
 				Módulos que vienen por defecto cuando instalamos Node JS
 				Ej:
-					http
+					http	Permite ejecutar js del lado del servidor
 
 			- Local
 
 			- Third Party
 
+	5. Local Modules
+
+		Tipos de módulos:
+			- Core
+				Módulos que vienen por defecto cuando instalamos Node JS
+				Ej:
+					fs		Permite trabajar con archivos
+
+			- Local
+				Son los módulos que escribimos en nuestra aplicación
+
+			- Third Party

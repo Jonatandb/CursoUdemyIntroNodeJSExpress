@@ -1,3 +1,5 @@
+var log = require('./modules/my-log')   // Depende de ./modules/my-log.js
+
 var http = require('http')
 
 var server = http.createServer(function (request, response) {
@@ -21,6 +23,16 @@ var server = http.createServer(function (request, response) {
     } else if (request.url === '/exit') {
         response.writeHead(200, { 'Content-Type': 'text/html' })
         response.write('<html><head><title>Bye bye!</title></head><body><p>Bye bye!</p></body></html>')
+        response.end()
+    } else if (request.url === '/info') {
+        var result = log.info(request.url)
+        response.writeHead(200, { 'Content-Type': 'text/html' })
+        response.write(result)
+        response.end()
+    } else if (request.url === '/error') {
+        var result = log.error(request.url)
+        response.writeHead(200, { 'Content-Type': 'text/html' })
+        response.write(result)
         response.end()
     } else {
         response.writeHead(404, { 'Content-Type': 'text/html' })
