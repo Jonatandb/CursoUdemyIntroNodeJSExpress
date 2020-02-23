@@ -181,6 +181,28 @@
 					code: 'AR'
 				}
 
+	8. Respaldar una app nodejs en un repositorio Git
+		-	Inicializar un repositorio Git en la carpeta de nuestro proyecto ejecutando:
+				git init
+		-	Crear un nuevo repo en Github
+		-	Copiarse la url del repo, por ej:
+				https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress.git
+		-	Crear en el raiz del proyecto un archivo llamado ".gitignore"
+				Este archivo va a tener una entrada por cada carpeta y/o archivo que deseamos
+					que Git no tenga en cuenta, para que no lo versione.
+				Agregar por ejemplo:
+					node_modules/
+				** No agregar nunca el archivo package-lock.json!
+		-	Desde la consola, parados en el raíz del proyecto, ejecutar:
+				git remote add origin https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress.git
+				Con esto vinculamos el repositorio local con el remoto en Github
+		-	Crear rama local:
+				git checkout -b nombreDeLaRama		(por ej: intro o develop, etc)
+		-	Agregar el código y commitearlo:
+				git add .
+				git commit -m "Commit inicial"
+		-	Subir el código a Github:
+				git push origin nombreDeLaRama
 
 
 
