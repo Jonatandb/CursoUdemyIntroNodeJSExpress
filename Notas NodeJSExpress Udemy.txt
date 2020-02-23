@@ -37,3 +37,18 @@
 
 	3. Ejecutando una app simple con nodejs
 
+	4. Core Modules
+		Funcionalidades simples o complejas que pueden ser reutilizados en una aplicación nodejs.
+		Cada módulo tiene su propio contexto, por esto un módulo no puede interferir con otro.
+		Cada módulo se coloca en un archivo .js diferente en una carpeta separada.
+
+		Tipos de módulos:
+			- Core
+				Módulos que vienen por defecto cuando instalamos Node JS
+				Ej:
+					http
+
+			- Local
+
+			- Third Party
+
