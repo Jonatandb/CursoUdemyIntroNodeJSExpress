@@ -1,0 +1,28 @@
+{
+  "name": "07_thirdpartymodules",
+  "version": "1.0.0",
+  "description": "Jonatandb npm module test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress.git"
+  },
+  "keywords": [
+    "Jonatandb",
+    "NodeJS",
+    "Express"
+  ],
+  "author": "Jonatandb@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress/issues"
+  },
+  "homepage": "https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress#readme",
+  "dependencies": {
+    "countries-list": "^2.5.1"
+  }
+}

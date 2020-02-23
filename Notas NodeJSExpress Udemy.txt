@@ -91,3 +91,97 @@
 				cual debe ser el utilizado cuando se haga el require).
 				* No es obligatorio que el nombre con el que se exporta sea igual al nombre
 					de la función.
+
+	7. Instalando un módulo desde NPM
+
+		Tipos de módulos:
+
+			- Third Party
+				Son módulos desarrollados por otras personas
+
+		Repositorio con módulos publicos disponibles para instalar con NPM:
+
+			https://www.npmjs.com/
+
+		Instalación de un módulo con npm:
+
+			1º - Para poder instalar un módulo (paquete) con npm, primero debemos inicializar
+				la carpeta donde estamos trabajando (lo que hará que pase a ser un paquete)
+				Esto se hace ejecutando:
+					npm init
+				Se ingresan los datos solicitados por el asistente para establecer los detalles
+				del paquete que se está creando.
+				Esto genera un archivo llamado:
+					package.json
+
+			2º - Se instala el paquete deseado utilizando el comando siguiente:
+
+				npm install nombreDelPaquete
+
+				Ej:
+					npm i countries-list
+					* Es válido utilizar solo la letra "i", en lugar de "install"
+
+				Esto agrega en el archivo package.json una nueva sección llamada
+					"dependencies"
+					la cual incluye el nombre del paquete externo del cual depende nuestro paquete.
+
+				Junto con el nombre de la nueva dependencia, aparece la versión actual de la msima
+				y a su vez éste número incluye delante el simbolo ^:
+					"^2.5.1"
+				Este simbolo le dice a NPM que cuando nuestro paquete sea instalado, se descargue
+				e instale la dependencia indicada en su versión más actualizada (siempre y cuando
+				la misma comienza con el 2). Pero esto puede traer un problema, que es que si al momento
+				de instalarse alguien nuestro paquete, el desarrollador de la dependencia lanzó una
+				nueva versión que mantiene como primer número el 2, pero que incluye cambios que rompen
+				compatibilidad con versiones anteriores, lo que va a pasar es que nuestro paquete no va
+				a funcionar.
+				Para evitar esto es que entre NODE y NPM se acordó la creación de un nuevo archivo llamado
+				"package-lock.json", el cual indica que versión expecífica de cada dependencia se debe
+				instalar cuando se instale nuestro paquete, más allá de que en el package.json las mismas
+				tengan delante de su número de versión el simbolo ^.
+
+				También crea la carpeta "node_modules"
+					Donde se descargarán los archivos de las dependencias instaladas.
+
+		Creación de un script NPM
+
+			En el archivo package.json, en la sección "Scripts", se agrega una nueva entrada
+			con nombre "start" y luego de dos puntos se agrega su definición, ej:
+				"start": "node index.js"
+
+			Para ejecutar este script debo ejecutar:
+				npm start 			//	o npm run start
+
+		Uso del módulo core:	url
+			El módulo url posee un método llamado parse() que recibe la propiedad url del objeto request:
+				var parsed = url.parse(request.url)
+			y devuelve un objeto llamado Url con toda la información de la url recibida:
+				Url {
+					protocol: null,
+					slashes: null,
+					auth: null,
+					host: null,
+					port: null,
+					hostname: null,
+					hash: null,
+					search: '?code=AR',
+					query: 'code=AR',
+					pathname: '/country',
+					path: '/country?code=AR',
+					href: '/country?code=AR'
+				}
+
+		Uso del módulo core:	querystring
+			El módulo querystring posee un método llamado parse que recibe una cadena con el formato "clave=valor&clave2=valor2":
+				var query = querystring.parse('code=AR')
+			y devuelve un objeto que posee propiedades con los nombres de las claves y como valores de las mismas los valores
+			luego de los signos de igual:
+				Query: {
+					code: 'AR'
+				}
+
+
+
+
+
