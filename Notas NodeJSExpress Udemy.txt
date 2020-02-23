@@ -1,29 +1,37 @@
 
 	2. Instalado nodejs y visual studio code
-		
+
 		https://nodejs.org/es/download/
 			https://nodejs.org/dist/v12.16.1/node-v12.16.1-x64.msi
-		
+
 		Actualizar NodeJS, cambiar versión de node con NPM
 			http://blog.josmantek.com/nodejs/actualizar-nodejs-cambiar-version-node-npm/
-		
+
 		Consultar versión de Node:
 			node -v
-		
+
 		Consultar versión de NPM:
 			npm -v
-			
+
 		Conocer detalles sobre Node instalado:
 			- Ejecutar la consola de Node
 				(Buscar en programas instalados el acceso: Node.js)
-				
+
 			- Desde la consola ejecutar:
 				process
-				
+
 			- Detalles principales:
 				title: 'Node.js',
 				version: 'v10.15.0',
 				execPath: 'E:\\nodejs\\node.exe',
-		
-		
-				
+
+		VSCode:
+			https://aka.ms/win32-x64-user-stable
+
+		Extensiones:
+			Terminal
+			Prettier - Code formatter
+			Git lens
+			Git history
+			VSCode-icons
+
