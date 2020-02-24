@@ -263,6 +263,58 @@
 								npm run dev
 								npm run miScript
 
+	10. Configurando Eslint y Prettier
+
+		Al configurar estas herramientas estamos estableciendo que todos los desarroladores involucrados
+		en el proyecto deben respetar ciertos estandares de escritura y formato de código y a su vez
+		fuerzan a que el código por todos sea similar.
+
+		Instalación como dependencia de desarrollo:
+			npm i -D eslint
+
+		Inicialización de Eslint:
+			node_modules\.bin\eslint --init
+				*	En linux:
+								./node_modules/.bin/eslint --init
+			Va a preguntar que se desea chequear, elegir la opción más completa:
+				"To check syntax, find problems, and enforce code style "
+			Va a preguntar que tipo de módulos usa el proyecto, elegir la segunda opción:
+				"CommonJS (require/exports)"
+			Va a preguntar si usamos algún framework como React, elegir:
+				"None of these"
+			Va a preguntar si usamos TypeScript, elegir:
+				"N"
+			Va a preguntar dónde está corriendo nuestro proyecto, elegir:
+				"Node"
+				* Si estuvieramos trabajando con React, deberíamos elegir "Browser"
+			Va a preguntar que estilo de formateo se desea utilizar, elegir:
+				"Use a popular style guide"
+			Va a preguntar específicamente que estilo deseamos utilizar, elegir:
+				"Airbnb: https://github.com/airbnb/javascript"
+			Va a preguntar como queremos que obtenga el archivo de configuración, elegir:
+				"JSON"
+			Va a preguntar si deseamos instalar algunas dependencias necesarias extras, elegir:
+				"Y"
+			Con esto se van a instalar las dependencias faltantes y se va a crear un archivo .eslintrc.json
+			con todo lo configurado.
+
+		Instalación de extensiones extra para VSCode:
+			Buscar e instalar:
+				Eslint
+				Prettier
+
+		Crear un archivo llamado ".prettierrc" y configurarlo a voluntad:
+			{
+				"tabWidth": 4,
+				"useTabs": true,
+				"semi": false,
+				"singleQuote": true
+			}
+
+		Desde VSCode se puede aplicar el formateo presionando:
+			Alt + Shift + F
+		o F1 y buscando "Aplicar formato de documento con..." y eligiendo Prettier.
+
 
 
 
