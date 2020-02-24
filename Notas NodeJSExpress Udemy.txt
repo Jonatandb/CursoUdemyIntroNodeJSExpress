@@ -315,7 +315,37 @@
 			Alt + Shift + F
 		o F1 y buscando "Aplicar formato de documento con..." y eligiendo Prettier.
 
+	11. Arrow Functions y Firacode
 
+		Eslint marca como error cuando se utilizan funciones en lugar de arrow functions, por lo que es recomendable
+		hacer la migración para también ganar legibilidad en el código.
+			Para migrar de function a arrow functions:
+				-	Se quita la palabra function
+				-	Se agregar luego de los paréntesis la flecha: =>
+				-	Si la función posee un solo parámetro, el mismo no necesita paréntesis que lo envuelvan:
+						text => console.log(text)
+				-	La función debe ser asignada a una constante:
+						const printText = text => console.log(text)
+
+		A veces Prettier marca como error cosas como por ejemplo que las arrow functions que reciben un solo parámetro
+		no tengan el mismo envuelto entre paréntesis. Este aviso se deshabilita agregando al archivo ".eslintrc.json"
+		en la sección "rules", lo siguiente:
+			"arrow-parens":"off"
+		Así como se agrega esta regla según como figura en el popup del alerta de Eslint, se pueden agregar las que se
+		deseen.
+
+		Instalación de fuente Firacode
+
+			https://github.com/tonsky/FiraCode
+
+			https://github.com/tonsky/FiraCode/wiki/VS-Code-Instructions
+
+		Una vez descargada la fuente, darle doble click para que se instale.
+		Una vez instalada ir a VSCode y agregar lo siguiente en este archivo:
+			"C:\Users\Jonatandb\AppData\Roaming\Code\User\settings.json"
+				"editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+				"editor.fontLigatures": true,
+				// Esto se activa en caso de querer que los simbolos similares se fusionen, por ej ===, =>, etc.
 
 
 

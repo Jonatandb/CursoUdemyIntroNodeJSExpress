@@ -7,13 +7,13 @@ const { countries } = require('countries-list')
 const app = express()
 const port = 4000
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
 	res.status(200).send(
 		'<html><head><title>Home page</title></head><body><p>Express powered Home page!</p></body></html>'
 	)
 })
 
-app.get('/info', function(req, res) {
+app.get('/info', (req, res) => {
 	var parsed = url.parse(req.url)
 	var pathName = parsed.pathname
 	console.log('req.url:', req.url)
@@ -26,7 +26,7 @@ app.get('/info', function(req, res) {
 })
 
 // **** Este debe ser el último endpoint, sino se hace cargo de todos los requests:  *****
-app.get('*', function(req, res) {
+app.get('*', (req, res) => {
 	res.status(404).send(
 		'<html><head><title>Pagina no encontrada!</title></head><body><p>Pagina no encontrada!</p></body></html>'
 	)
