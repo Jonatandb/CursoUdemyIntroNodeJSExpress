@@ -1,3 +1,5 @@
+	Repositorio:
+				https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress
 
 	2. Instalado nodejs y visual studio code
 
@@ -173,10 +175,11 @@
 				}
 
 		Uso del módulo core:	querystring
-			El módulo querystring posee un método llamado parse que recibe una cadena con el formato "clave=valor&clave2=valor2":
+			El módulo querystring posee un método llamado parse que recibe una cadena con el formato
+			"clave=valor&clave2=valor2":
 				var query = querystring.parse('code=AR')
-			y devuelve un objeto que posee propiedades con los nombres de las claves y como valores de las mismas los valores
-			luego de los signos de igual:
+			y devuelve un objeto que posee propiedades con los nombres de las claves y como valores de
+			las mismas los valores	luego de los signos de igual:
 				Query: {
 					code: 'AR'
 				}
@@ -203,6 +206,64 @@
 				git commit -m "Commit inicial"
 		-	Subir el código a Github:
 				git push origin nombreDeLaRama
+
+	9. Instalado express js
+
+		Página de Express JS:	http://expressjs.com/
+
+		Express es un Framework de aplicaciones web Node.js minimalista y flexible que proporciona
+		un conjunto robusto de características para aplicaciones web y móviles.
+
+		Con una gran cantidad de métodos de utilidad HTTP y middlewares a su disposición,
+		para crear una API robusta rápida y fácilmente.
+
+		Express proporciona una capa delgada de funciones fundamentales de aplicaciones web,
+		sin ocultar las funciones de Node.js que conoce y ama.
+
+		Instalación:
+			npm install express
+
+		Uso básico:
+			var express = require('express')
+			const expressWebServer = express()
+			const port = 3000
+			expressWebServer.get('/', (req, res) => res.send('Funciona!'))
+			expressWebServer.listen(port, () => console.log(`Servidor ejecutándose en el puerto ${port}`))
+			* Con esto, al ejecutar la aplicación, ya queda corriendo un web server capaz de atender
+				solicitudes, al cual se accede desde el navegor yendo a la url: http://localhost:3000
+				Al ser una prueba devolverá un error si se intenta acceder a una url diferente de '/'.
+
+		Routing (Ruteo):	http://expressjs.com/en/guide/routing.html
+			El enrutamiento se refiere a determinar cómo una aplicación responde a una solicitud del
+			cliente a un punto final particular (Endpoint), que es una URI (o ruta) y un método de solicitud
+			HTTP específico (GET, POST, etc.).
+
+		Documentación de la API:	http://expressjs.com/en/4x/api.html
+
+		Instalación de Nodemon:
+
+			Paquete NPM que reincia automáticamente la ejecución de nuestro proyecto
+			cada vez que detecta que el mismo es modificado.
+
+				Instalación:
+					npm install -D nodemon   // Con -D le decimos a NPM que instale el paquete solo como una
+											 // dependencia de desarrollo. Una dependencia de desarrollo no
+											 // será incluída cuando se haga un paquete productivo ("build")
+											 // de la aplicación.
+				Uso:
+					nodemon index.js
+
+				Agregado de un nuevo script al archivo package.json:
+					"dev" : "nodemon index.js"
+					* Para el uso del nuevo script ejecutar:
+						npm run dev
+						*	Npm solo reconoce por defecto los scripts "start" y "test",
+							por lo que para ejecutar cualquier otro script hace falta
+							agregar el parámetro run:
+								npm run dev
+								npm run miScript
+
+
 
 
 
