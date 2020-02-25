@@ -433,3 +433,42 @@
 
 	15. Definiendo nuestras rutas en un archivo diferente
 
+		Se mueve la configuración de las rutas a un archivo independiente dentro de la carpeta routes.
+
+	16. Definiendo la estructura de nuestra API
+
+		Se crea una carpeta para la versión 1 de las rutas y dentro los archivos "users-routes.js" y "products-routes.js".
+		Se crea una carpeta para la versión 1 de los controllers y dentro los archivos "users-controller.js" y "products-controller.js"
+
+		Middlewares:
+			https://www.tutorialspoint.com/expressjs/expressjs_middleware.htm
+
+			Las funciones de middleware son funciones que tienen acceso al objeto de solicitud (req), el objeto de respuesta (res)
+			y la siguiente función de middleware en el ciclo de solicitud-respuesta de la aplicación. Estas funciones se utilizan para
+			modificar los objetos req y res para tareas como analizar cuerpos de solicitud, agregar encabezados de respuesta, etc.
+
+		Desde "index.js" se llama a una función exportada dentro del archivo "routes/v1/index.js" que lo que hace es recibir la app de
+		Express y hace uso del método ".use()" que se utiliza para establecer middlewares a ejecutarse cuando se reciban requests,
+		entonces se configuran las rutas '/api/v1/users' y '/api/v1/products' y se configura para que la primera utilice
+		como middleware el archivo "routes/v1/users-routes.js" y a la segunda el archivo "routes/v1/products-routes.js".
+		Los archivos 'users-routes.js' y 'products-routes.js' a su vez ejecutan la funcionalidad de Express: express.Router() y luego
+		configuran dicho objeto estableciendo que verbos http se van a atender (post, put, get, etc), por medio de que ruta y que
+		funcionalidad se debe ejecutar, esta funcionalidad estará en los controllers ('users-controller.js', etc.).
+
+		Con esto así configurado y con las funcionalidades establecidas en los controllers, la aplicación ya es capaz de responder
+		cuando desde "Postman" o "Advanced REST client" se hagan solicitudes a los siguientes endpoints:
+
+			GET a  http://localhost:4000/api/v1/users/get-all
+			POST a http://localhost:4000/api/v1/users/create
+			POST a http://localhost:4000/api/v1/users/update
+			POST a http://localhost:4000/api/v1/users/delete
+
+			GET a  http://localhost:4000/api/v1/products/get-all
+			POST a http://localhost:4000/api/v1/products/create
+			POST a http://localhost:4000/api/v1/products/delete
+
+
+
+
+
+
