@@ -363,7 +363,25 @@
 			** Al verificarlo detecté que send() parece que ahora detecta cuando recibe un objeto
 				json y automáticamente devuelve dicho objeto con el Content-Type: application/json
 
+	13. Alternativa a Query Params
 
+		También se puede utilizar request.params para obtener un objeto que contenga los parámetros
+			pasados a una url, por ej:
+				http://localhost:4000/languages/es
+			Donde, "/languages" es la ruta y "es" es el parámetro.
 
+		Esto se obtiene consultando la propiedad de tipo objeto, llamada params, del objeto request:
+			request.query.params
+		Para el caso anterior se obtendría:
+			request.params: { lang: 'es' }
 
+		Para que Express intercepte correctamente este tipo de ruta con parámetros, se debe configurar
+			la misma de la siguiente manera:
+				app.get('/languages/:lang', (req, res) => {
+				* Donde ":lang" le dice a Express con que nombre vamos a consultar el parámetro recibido.
 
+		Se pueden configurar rutas que reciban múltiples parámetros, de la siguiente manera:
+			app.get('/languages/:lang/:country', (req, res) => {
+			* Para consultar ambos valores se debe hacer así:
+				request.params.lang
+				request.params.country
