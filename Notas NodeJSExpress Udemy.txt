@@ -431,4 +431,5 @@
 		 (ya que con una solicitud PUT siempre proporcionan la URL completa), algunos incluso utilizan POST para
 		 actualizaciones y PUT para crear.
 
+	15. Definiendo nuestras rutas en un archivo diferente
 
