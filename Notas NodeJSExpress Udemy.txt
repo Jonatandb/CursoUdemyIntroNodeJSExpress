@@ -385,3 +385,50 @@
 			* Para consultar ambos valores se debe hacer así:
 				request.params.lang
 				request.params.country
+
+	14. APIs REST y Postman
+
+		API: Application Programming Interface
+
+		REST: Representational State Transfer
+
+		Una API REST funciona como un navegador:
+			Un cliente hace una petición mediante el protocolo HTTP a un servidor, el servidor procesa la
+			solicitud y devuelve una respuesta (ya sea en formato JSON o XML).
+			Generalmente las API REST trabajan con el formato JSON como respuesta.
+
+		Postman:
+			Cliente REST recomendado para consumir API's
+
+		https://code.tutsplus.com/es/tutorials/a-beginners-guide-to-http-and-rest--net-16340
+
+		Verbos HTTP
+
+		GET es el tipo más simple de método de solicitud HTTP; La que usan los navegadores cada vez que hace
+		clic en un enlace o escribe una URL en la barra de direcciones. Indica al servidor que transmita los
+		datos identificados por la URL al cliente. Los datos nunca deben ser modificados en el lado del
+		servidor como resultado de una solicitud GET. En este sentido, una petición GET es de sólo lectura,
+		pero por supuesto, una vez que el cliente recibe los datos, es libre de hacer cualquier operación con
+		ella por su cuenta, por ejemplo, formatearla para su visualización.
+
+		Una petición PUT se utiliza cuando se desea crear o actualizar el recurso identificado por la URL.
+		 Por ejemplo:
+			PUT /clients/robin
+		 Podría crear un cliente, llamado Robin en el servidor. Usted notará que REST es completamente agnóstico
+		 de servidor; No hay nada en la solicitud que informe al servidor cómo deben crearse los datos, sólo
+		 que debería. Esto le permite intercambiar fácilmente la tecnología del servidor si la necesidad surge.
+		 Las peticiones PUT contienen los datos que se utilizarán para actualizar o crear el recurso en el
+		 cuerpo.
+
+		DELETE debe realizar lo contrario de PUT; Debe utilizarse cuando desee eliminar el recurso identificado
+		 por la URL de la solicitud.
+
+		POST se utiliza cuando el procesamiento que desea que suceda en el servidor debe repetirse, si la
+		 solicitud POST se repite. Además, las solicitudes POST deben causar el procesamiento del cuerpo de
+		 la solicitud como un subordinado de la URL que está publicando.
+		 Las solicitudes PUT se utilizan fácilmente en lugar de solicitudes POST, y viceversa. Algunos sistemas
+		 utilizan sólo uno, algunos utilizan POST para crear operaciones y PUT para operaciones de actualización
+		 (ya que con una solicitud PUT siempre proporcionan la URL completa), algunos incluso utilizan POST para
+		 actualizaciones y PUT para crear.
+
+
