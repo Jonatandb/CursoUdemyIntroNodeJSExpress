@@ -364,6 +364,7 @@
 				json y automáticamente devuelve dicho objeto con el Content-Type: application/json
 
 	13. Alternativa a Query Params
+		https://www.tutorialspoint.com/expressjs/expressjs_url_building.htm
 
 		También se puede utilizar request.params para obtener un objeto que contenga los parámetros
 			pasados a una url, por ej:
@@ -468,6 +469,83 @@
 			POST a http://localhost:4000/api/v1/products/delete
 
 
+	17. Obteniendo parámetros desde una petición POST
+
+		Body-parser:
+			https://www.npmjs.com/package/body-parser
+			Nos permite convertir y obtener los datos entrantes de una solicitud HTTP.
+			Por ejemplo, cuando se desee crear un usuario, se va a hacer un request a la ruta "/create"	y desde ahí necesitamos
+			acceder al body de la solicitud, que va a tener los datos del usuario que se desea crear.
+			El request puede ser de varios Content-type, por ejemplo "Form data (www-url-form-encoded)", en este caso los datos enviados
+			al servidor van a llegar en forma de parámetros (clave, valor) que se pueden leer desde request.body PERO solo si se
+			instala y configurara body-parser de la siguiente manera:
+				var bodyParser = require('body-parser')
+				// parse application/x-www-form-urlencoded
+				app.use(bodyParser.urlencoded({ extended: false }))
+			con esto se puede obtener el contenido de los parámetros mediante request.body, ej:
+				console.log('req.body', req.body)
+				lo que devolverá algo como:
+					req.body [Object: null prototype] { user: 'Jonatandb' }
+			sino el resultado de request.body será -> undefined.
+			Este uso es muy poco frecuente, ya que los parámetros y sus valores son tomados todos como del tipo string y a veces eso no
+			es totalmente conveniente, ya que se necesita en algunos casos enviar datos booleanos o incluso arrays.
+			Para que la API siga las prácticas recomendadas y sea considerada de calidad debe poder trabajar mediante la recepción de
+			datos en formato JSON. Para esto habría que configurarla para que sea capaz de recibir y utilizar correctamente la información
+			contenida en un objeto JSON.
+			Esto se logra agregando lo siguiente:
+				// parse application/json
+				app.use(bodyParser.json())
+				* Con esto permitimos el consumo de nuestra API utilizando el Content-Type: application/json
+			con esto se puede obtener el contenido del objeto JSON recibido consultado request.body, ej:
+				console.log('req.body', req.body)
+			lo que devolverá algo como:
+				req.body { user: 'Jonatandb' }
+			Si el request posee un objeto JSON con diferentes tipos de datos en sus parámetros, el resultado obtenido será por ejemplo:
+				req.body: {
+					user: 'Jonatandb',
+					password: '123Abc',
+					isAdmin: true,
+					permissions: [ 1, 4, 6 ]
+				}
+
+		Cómo almacenar de forma segura una contraseña:
+			https://codahale.com/how-to-safely-store-a-password/
+
+		bcrypt: Librería que ayuda a hashear passwords.
+			https://www.npmjs.com/package/bcrypt
+
+			Instalación:
+				npm install bcrypt
+
+			Uso asincrónico:
+				Ya que la funcionalidad que hashea la contraseña (que luego almacenaremos en la base de datos) se demora su tiempo, es
+				recomendable hacer que toda la funcionalidad de creación de usuario sea asíncrona y aguardar su finalización antes de
+				devolver una respuesta al usuario (o API) que la está consumiendo.
+				Para esto, a la función arrow que se ejecuta cuando se accede a la ruta '/api/v1/users/create' le anteponemos la palabra
+				clave 'async':
+					const createUser = async (req, res) => {
+				Luego, en llamada a la función que se demora (la que hashea la contraseña) se antepone la palabra clave 'await':
+					const hash = await bcrypt.hash(req.body.password, 6)
+				Con esto, se detendrá la ejecución de la aplicación hasta que el hasheo esté realizado.
+				Para capturar posibles errores durante el hasheo, se puede envolver el código en un bloque try-catch de la siguiente
+				manera:
+					const createUser = async (req, res) => {
+						try {
+							const hash = await bcrypt.hash(req.body.password, 6)
+							res.send('User created!')
+						} catch (error) {
+							res.status(500).send({
+								status: 'ERROR',
+								message: 'No se pudo hashear la contraseña, error: ' + error.message
+								// El parámetro error posee siempre una propiedad llamada 'message'
+							})
+						}
+					}
+				* El uso de la palabra clave await es posible gracias a que la función bcrypt.hash() devuelve una Promise.
+				* Toda función que hace uso de la palabra clave await debe tener en su definición la palabra clave async.
+				* Todo error producido en una Promise puede ser capturado mediante el bloque catch de un try-catch.
+				Con esto garantizamos que nuestra aplicación no se va a "caer" en tiempo de ejecución, esto es, que no va a dejar de responder
+				por causa de un error.
 
 
 
