@@ -347,6 +347,23 @@
 				"editor.fontLigatures": true,
 				// Esto se activa en caso de querer que los simbolos similares se fusionen, por ej ===, =>, etc.
 
+	12. Query Params
+
+		Con express se pueden obtener fácilmente los parámetros pasados por url consultando
+		el objeto request.query.
+
+			Por ej, al consultar la url "http://localhost:4000/country?code=AR"
+			el valor del la propiedad query del objeto request será este objeto:
+				{ code: 'AR' }
+
+		Si en lugar de devolver texto (lo que devuelve por default response.send()), queremos
+			devolver por ejemplo contenido json (Content-Type: application/json), debemos
+			utilizar el método json() de response:
+				response.json( ...objeto json a devolver... )
+			** Al verificarlo detecté que send() parece que ahora detecta cuando recibe un objeto
+				json y automáticamente devuelve dicho objeto con el Content-Type: application/json
+
+
 
 
 
