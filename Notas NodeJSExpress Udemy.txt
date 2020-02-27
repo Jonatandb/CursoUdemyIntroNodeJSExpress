@@ -584,6 +584,8 @@
 
 			https://mongoosejs.com/
 
+			https://mongoosejs.com/docs/guide.html
+
 			Instalación:
 
 				npm install mongoose
@@ -602,3 +604,25 @@
 					.catch(err => {
 						console.log('Error conectando a MongoDB!', err)
 					})
+
+	19. Definiendo los modelos para nuestra base de datos
+
+		En MongoDb se trabaja con colecciones, y cada colección puede tener documentos.
+
+		Guía sobre como definir documentos:
+			Defining your schema	-	https://mongoosejs.com/docs/guide.html#definition
+
+			* Cuando se necesita que una tabla tenga los campos createdAt y updatedAt, se puede pasar en la definición del schema
+				un segundo objeto con la propiedad "timestamps: true":
+					const productSchema = new Schema(
+						{
+							title: 		 { type: String, required: true },
+							description: { type: String, required: true },
+							price: 		 { type: Number, required: true }
+						},
+						{
+							timestamps: true
+						}
+					)
+				y al insertar o modificar datos en esta colección, MongoDb automáticamente va a actualizar tales datos.
+
