@@ -547,6 +547,58 @@
 				Con esto garantizamos que nuestra aplicación no se va a "caer" en tiempo de ejecución, esto es, que no va a dejar de responder
 				por causa de un error.
 
+	18. Conectando con mongodb
 
+		Utilización de variables de entorno
 
+			Es importante que nunca se suba al repositorio el archivo con variables de entorno
+				por la naturaleza de los datos que las mismas contienen, generalmente, cadenas
+				de conexión, credenciales, y toda información dinámica específica y privada de
+				nuestra aplicación. Por esta razón es que suele agregar este archivo a la lista
+				de archivos ingorados por Git dentro del archivo ".gitignore"
 
+			Se debe crear un archivo ".env"
+
+			Para poder utilizar las variables de entorno, se debe instalar el paquete dotenv:
+				npm install dotenv
+				El cual se importa así:
+					const dotenv = require('dotenv')
+				Y se debe inicializar así:
+					dotenv.config();
+					Esto lee la información dentro del archivo ".env" y la deja a nuestra disponsición para su consulta.
+
+			Para consultar el valor de las variables de entorno (junto con las configuradas en el archivo ".env")
+				se debe consultar la propiedad env del objeto process:
+					console.log(process.env.nombreDeLaVariable)
+				* Si la máquina ya tenía una variable de entorno definida con el mismo nombre, se obtiene su valor,
+					no se va a obtener el que esté en el archivo ·.env".
+
+			Para evitar errores cuando por alguna razón no se establezcan correctamente las variables de entorno, se suele
+			utilizar el simnolo || de la siguiente manera:
+				const PORT = process.env.PORT || 5555
+			de esta forma, si no se obtiene el valor de la variable de entorno PORT, se trabajará por defecto con el valor 5555.
+
+		Utilizando Mongoose para conectarse a MongoDB
+
+			https://www.npmjs.com/package/mongoose
+
+			https://mongoosejs.com/
+
+			Instalación:
+
+				npm install mongoose
+
+			Uso de Mongoose:
+
+				const mongoose = require('mongoose')
+				mongoose
+					.connect("mongodb://user:pass@localhost/databasename", {
+						useNewUrlParser: true,
+						useUnifiedTopology: true
+					})
+					.then(() => {
+						console.log('Conectado a MongoDB!')
+					})
+					.catch(err => {
+						console.log('Error conectando a MongoDB!', err)
+					})
