@@ -547,7 +547,44 @@
 				Con esto garantizamos que nuestra aplicación no se va a "caer" en tiempo de ejecución, esto es, que no va a dejar de responder
 				por causa de un error.
 
-	18. Conectando con mongodb
+	18. Conectando con Mongodb
+
+		Guías oficiales:
+			Install MongoDB					https://docs.mongodb.com/guides/server/install/
+			Secure your MongoDB Deployment	https://docs.mongodb.com/guides/server/auth/
+			Connect to MongoDB				https://docs.mongodb.com/guides/server/drivers/
+			Read Data from MongoDB			https://docs.mongodb.com/guides/server/read/
+			Connection String URI Format	https://docs.mongodb.com/manual/reference/connection-string/#mongodb-uri
+
+			MongoDB en 20 minutos - https://www.youtube.com/watch?v=c8n6JsQuX2A
+			MongoDB Parte 2: Documentos Anidados | Arreglos | Proyecciones | Índices - https://www.youtube.com/watch?v=jK77CnK5DTM&feature=youtu.be
+
+			Creación de usuarios:
+				https://docs.mongodb.com/manual/tutorial/enable-authentication/#create-the-user-administrator
+			Hacer que luego el servicio se ejecute siempre con "--auth"
+				https://stackoverflow.com/questions/56110254/how-to-run-mongodb-as-a-service-with-authentication-on-a-windows-machine
+			BD y otro usuario creado para pruebas:
+				https://docs.mongodb.com/manual/tutorial/enable-authentication/#create-additional-users-as-needed-for-your-deployment
+				use cursonodejs
+				db.createUser({
+					user: "jonatandb",
+					pwd:  "jonatandb",
+					roles: [ { role: "readWrite", db: "cursonodejs" } ]
+				})
+				* Cadena de conexión:
+					mongodb://jonatandb:jonatandb@localhost/cursonodejs
+
+			Para conectarme, uso el programa Robo 3T 1.3.1 (Ex Robomongo)
+				Este programa se conecta al servidor local por defecto, apuntando a:
+				localhost:27017
+				y permite manipular las bases y los datos.
+				En la conexión fui a la solapa Authenticación, tildé "Perform authentication" y puse
+					el nombre de usuario y la clave creados.
+
+			Para conectarme por consola, ejecuto:
+				mongo admin -u superuser -p root
+				* admin es la base de datos a la que me quiero conectar, si no se especifica se obtiene un error.
+			** Si inicié el servidor sin la opción "--auth" no es necesario pasar usuario y clave, pero si lo paso funciona igual.
 
 		Utilización de variables de entorno
 
@@ -574,9 +611,9 @@
 					no se va a obtener el que esté en el archivo ·.env".
 
 			Para evitar errores cuando por alguna razón no se establezcan correctamente las variables de entorno, se suele
-			utilizar el simnolo || de la siguiente manera:
+			utilizar el simbolo || de la siguiente manera:
 				const PORT = process.env.PORT || 5555
-			de esta forma, si no se obtiene el valor de la variable de entorno PORT, se trabajará por defecto con el valor 5555.
+			de esta forma, si no se obtiene el valor de la variable de entorno PORT, se guardará en la constante PORT el valor 5555.
 
 		Utilizando Mongoose para conectarse a MongoDB
 
@@ -626,3 +663,30 @@
 					)
 				y al insertar o modificar datos en esta colección, MongoDb automáticamente va a actualizar tales datos.
 
+	20. Guardando usuarios en nuestra base
+
+		MongoDB es una base de datos No SQL, por lo tanto puede guardar los datos como si fueran objetos.
+
+		Actualicé la versión del servidor de MongoDB
+		Cree un nuevo usuario superuser, con clave root y un usuario jonatandb con clave jonatandb para hacer pruebas.
+			https://docs.mongodb.com/manual/tutorial/enable-authentication/#create-the-user-administrator
+		También modifiqué el archivo de configuración (que es el que usa el servidor ahora que arranca como un servicio) para
+			que apuente a la carpeta con las bases de datos y se inicie con la opción "--auth", por lo que solo se podrán
+			conectar al servidor usuarios con permisos.
+		Actualicé la cadena de conexión en el archivo ".env" para que apuente al nuevo servidor con el nuevo usuario y clave y
+		a la base de datos creada para este proyecto, llamada cursonodejs:
+			MONGO=mongodb://jonatandb:jonatandb@localhost/cursonodejs
+
+		Se pueden insertar registros de dos maneras:
+			1) await Users.create({
+				username, // Es lo mismo que -> username: username
+				email,
+				data,
+				password: hash
+			  })
+			2) const user = new Users()
+			  	user.username = username
+				user.password = hash
+				user.email = email
+				user.data = data
+				await user.save()
