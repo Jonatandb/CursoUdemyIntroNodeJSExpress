@@ -690,3 +690,15 @@
 				user.email = email
 				user.data = data
 				await user.save()
+
+	21. Guardando un producto en nuestra base
+
+		Cuando MongoDB crea las colecciones en base a los schemas, las crea con los nombres en minúscula y en plural:
+			Schema: User		-> colección en la base de datos: users
+			Schema: Product 	-> colección en la base de datos: products
+		* Esto se puede cambiar, por ejemplo, especificando al momento de la definición del modelo, el nombre de la colección
+			donde tales documentos serán almacenados:
+		const model = mongoose.model('User', userSchema, 'Usuarios')
+
+
+
