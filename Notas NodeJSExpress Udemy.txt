@@ -700,5 +700,26 @@
 			donde tales documentos serán almacenados:
 		const model = mongoose.model('User', userSchema, 'Usuarios')
 
+	22. Recuperando datos de mongoDB
+
+		Para obtener los documentos de una colección se utiliza el método find() del objeto del modelo deseado:
+			const products = await Product.find()
+			Esto va a devolver todos los documentos de la colección, con todos sus campos.
+			Para filtrar los campos que se desean obtener, se utiliza el método .select('lista de campos separados por espacio'):
+				const products = await Product.find().select('title description price')
+			En el caso de los campos que sean de tipo "ObjectId", como lo es el campo "user" que almacena un id de usuario,
+			se puede hacer que MongoDb en lugar de traer ese id traiga el objeto completo al que referencia. Para esto se
+			utiliza el método .populate('campo que apunta a otro documento'):
+				const products = await Product.find().populate('user')
+				** Esto trae todos los campos del documento user vinculado. Para traer solo los deseados, se pueden especificar:
+					const products = await Product.find().populate('user', 'username email data.age role')
+			  **Al haber utilizado .populate(), se agrega a los documentos la propiedad user, por mas que no haya sido especificada
+				en el select.
+
+
+
+
+
+
 
 
