@@ -783,3 +783,44 @@
 				const user = await User.findOne({ email })
 			Luego verificamos que el password ingresado es válido, utilizando le método compare() de bcrypt:
 				const isOk = await bcrypt.compare(password, user.password)
+
+	26. Json Web Tokens
+
+		Las rutas /delete y /update deben tener una especie de validación de autenticación para garantizar que no cualquiera consuma
+			éstas rutas.
+			Por ejemplo la ruta /delete debería ser consumida solo por un usuario con permisos de administrador
+			La ruta /update solo debería ser consumida por el usuario dueño de la cuenta
+		Para establecer esta seguridad se utiliza por ejemplo Json Web Token:
+			https://jwt.io/
+
+		Json Web Token (o JWT) básicamente es un string codificado en el cual podemos almacenar cierta información.
+			Para generar este token se debe utilizar una firma que solamente debe ser guardada en el servidor (jamas en el lado del
+				cliente, jamas en la aplicación movil o en el browser, SIEMPRE del lado del servidor)
+			Entonces para que alguien pueda consumir alguna de las rutas mencionadas, debe enviar el token, el cual verificamos si fue
+			firmado por nuestro "secret" y luego verificamos si todavía es un token vigente o si está expirado.
+			Cuando generamos un JWT podemos darle un tiempo de expiración.
+				* Es recomendable siempre ponerle un tiempo de expiración corta al token generado, porque si retornamos un token que
+				nunca expire no podemos saber si la persona que usó la ruta utilizó buenas prácticas de programación para almacenar
+				de manera segura este token en su equipo. Si alguien le roba el token, y este token no tiene un tiempo de vida corto,
+				automáticamente él ladrón podrá seguir consumiendo las rutas de delete o update durante todo ese tiempo restante.
+
+		Instalación:
+				npm install jsonwebtoken
+
+		Generación de un jwt:
+			Desde por ejemplo el método login, una vez que verificamos que el usuario se logueó correctamente, ejecutamos:
+				const jwt = require('jsonwebtoken')		// Esto va fuera del método login()
+				const token = jwt.sign(
+					{
+						userId: user._id, role: user.role
+					},
+					process.env.JWT_SECRET,
+					{ expiresIn: 60 * 10 }
+				)
+				res.send({ status: 'OK', data: { token, expiresIn } })
+			* El método sign de jwt espera tres parámetros para generar el token:
+				Primero, la información que contendrá el token generado (Jamás debe incluir información sensible, solo lo necesario)
+				Segundo, la firma (el secret) con el cual firmar el token
+				Tercero, el tiempo en cuanto el token expirará
+			El token generado, que en este ejemplo se está devolviendo al navegador como valor de la propiedad data, será el que se
+			utilizará para consumir las rutas de /delete o /update.
