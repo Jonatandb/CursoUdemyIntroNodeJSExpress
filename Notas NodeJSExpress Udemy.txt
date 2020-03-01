@@ -758,7 +758,14 @@
 
 		Y la lista continúa...
 
+	24. Actualizando información en la base
 
+		Utilización del método findByIdAndUpdate( "id del documento a actualizar", { "objeto con propiedades a actualizar "}):
+			const { userId, email, data } = req.body
+			await User.findByIdAndUpdate(userId, {
+				email,
+				data
+			})
 
 
 
