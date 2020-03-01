@@ -190,7 +190,7 @@
 		-	Crear un nuevo repo en Github
 		-	Copiarse la url del repo, por ej:
 				https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress.git
-		-	Crear en el raiz del proyecto un archivo llamado ".gitignore"
+		-	Crear en el raíz del proyecto un archivo llamado ".gitignore"
 				Este archivo va a tener una entrada por cada carpeta y/o archivo que deseamos
 					que Git no tenga en cuenta, para que no lo versione.
 				Agregar por ejemplo:
@@ -215,7 +215,7 @@
 		un conjunto robusto de características para aplicaciones web y móviles.
 
 		Con una gran cantidad de métodos de utilidad HTTP y middlewares a su disposición,
-		para crear una API robusta rápida y fácilmente.
+		para crear una API robusta, rápida y fácilmente.
 
 		Express proporciona una capa delgada de funciones fundamentales de aplicaciones web,
 		sin ocultar las funciones de Node.js que conoce y ama.
@@ -361,7 +361,7 @@
 			utilizar el método json() de response:
 				response.json( ...objeto json a devolver... )
 			** Al verificarlo detecté que send() parece que ahora detecta cuando recibe un objeto
-				json y automáticamente devuelve dicho objeto con el Content-Type: application/json
+				json y automáticamente devuelve dicho objeto con el Content-Type: "application/json".
 
 	13. Alternativa a Query Params
 		https://www.tutorialspoint.com/expressjs/expressjs_url_building.htm
@@ -379,7 +379,7 @@
 		Para que Express intercepte correctamente este tipo de ruta con parámetros, se debe configurar
 			la misma de la siguiente manera:
 				app.get('/languages/:lang', (req, res) => {
-				* Donde ":lang" le dice a Express con que nombre vamos a consultar el parámetro recibido.
+				* Donde ":lang" le dice a Express con que nombre vamos a consultar el valor del parámetro recibido.
 
 		Se pueden configurar rutas que reciban múltiples parámetros, de la siguiente manera:
 			app.get('/languages/:lang/:country', (req, res) => {
@@ -396,7 +396,7 @@
 		Una API REST funciona como un navegador:
 			Un cliente hace una petición mediante el protocolo HTTP a un servidor, el servidor procesa la
 			solicitud y devuelve una respuesta (ya sea en formato JSON o XML).
-			Generalmente las API REST trabajan con el formato JSON como respuesta.
+			* Generalmente las API REST trabajan con el formato JSON como respuesta.
 
 		Postman:
 			Cliente REST recomendado para consumir API's
@@ -495,7 +495,7 @@
 			Esto se logra agregando lo siguiente:
 				// parse application/json
 				app.use(bodyParser.json())
-				* Con esto permitimos el consumo de nuestra API utilizando el Content-Type: application/json
+				* Con esto permitimos el consumo de nuestra API utilizando el Content-Type: "application/json"
 			con esto se puede obtener el contenido del objeto JSON recibido consultado request.body, ej:
 				console.log('req.body', req.body)
 			lo que devolverá algo como:
@@ -644,12 +644,12 @@
 
 	19. Definiendo los modelos para nuestra base de datos
 
-		En MongoDb se trabaja con colecciones, y cada colección puede tener documentos.
+		En MongoDb se trabaja con colecciones (tablas), y cada colección puede tener documentos (registros).
 
-		Guía sobre como definir documentos:
+		Guía sobre como definir los esquemas de los documentos:
 			Defining your schema	-	https://mongoosejs.com/docs/guide.html#definition
 
-			* Cuando se necesita que una tabla tenga los campos createdAt y updatedAt, se puede pasar en la definición del schema
+			* Cuando se necesita que una colección (tabla) tenga los campos createdAt y updatedAt, se puede pasar en la definición del schema
 				un segundo objeto con la propiedad "timestamps: true":
 					const productSchema = new Schema(
 						{
@@ -698,25 +698,65 @@
 			Schema: Product 	-> colección en la base de datos: products
 		* Esto se puede cambiar, por ejemplo, especificando al momento de la definición del modelo, el nombre de la colección
 			donde tales documentos serán almacenados:
-		const model = mongoose.model('User', userSchema, 'Usuarios')
+				const model = mongoose.model('User', userSchema, 'Usuarios')
 
 	22. Recuperando datos de mongoDB
 
 		Para obtener los documentos de una colección se utiliza el método find() del objeto del modelo deseado:
 			const products = await Product.find()
-			Esto va a devolver todos los documentos de la colección, con todos sus campos.
-			Para filtrar los campos que se desean obtener, se utiliza el método .select('lista de campos separados por espacio'):
-				const products = await Product.find().select('title description price')
-			En el caso de los campos que sean de tipo "ObjectId", como lo es el campo "user" que almacena un id de usuario,
-			se puede hacer que MongoDb en lugar de traer ese id traiga el objeto completo al que referencia. Para esto se
-			utiliza el método .populate('campo que apunta a otro documento'):
-				const products = await Product.find().populate('user')
-				** Esto trae todos los campos del documento user vinculado. Para traer solo los deseados, se pueden especificar:
+		Esto va a devolver todos los documentos de la colección, con todos sus campos.
+		Para filtrar los campos que se desean obtener, se utiliza el método .select('lista de campos separados por espacio'):
+			const products = await Product.find().select('title description price')
+		En el caso de los campos que sean de tipo "ObjectId", como lo es el campo "user" que almacena un id de usuario,
+		se puede hacer que MongoDb en lugar de traer ese id traiga el objeto completo al que referencia.
+			Para esto se utiliza el método .populate('campo que apunta a otro documento'):
+			const products = await Product.find().populate('user')
+			** Esto trae todos los campos del documento user vinculado.
+				Para traer solo los deseados, se pueden especificar:
 					const products = await Product.find().populate('user', 'username email data.age role')
-			  **Al haber utilizado .populate(), se agrega a los documentos la propiedad user, por mas que no haya sido especificada
-				en el select.
+			**Al haber utilizado .populate(), se agrega a los documentos la propiedad user, por más que no haya sido especificada
+			en el select.
 
+	23. Filtrando datos de mongoDB
 
+		Para filtrar los datos obtenidos, se le pasa al método find() un objeto con las condiciones deseadas:
+			getProductsByUserId():
+				const products = await Product.find({
+					user: req.params.userId
+				})
+
+			getProductsCheaperThan100():
+				const products = await Product.find({
+					price: { $lt: 100 }
+				})
+
+			getProductsGreaterThan100():
+				const products = await Product.find({
+					price: { $gt: 100 }
+				})
+
+		Para una lista de filtros aplicables consultar la documentación de MongoDB:
+			https://docs.mongodb.com/manual/reference/operator/query/
+
+			Comparison
+			Name		Description
+				$eq			Matches values that are equal to a specified value.
+				$gt			Matches values that are greater than a specified value.
+				$gte		Matches values that are greater than or equal to a specified value.
+				$in			Matches any of the values specified in an array.
+				$lt			Matches values that are less than a specified value.
+				$lte		Matches values that are less than or equal to a specified value.
+				$ne			Matches all values that are not equal to a specified value.
+				$nin		Matches none of the values specified in an array.
+
+			Logical
+			Name		Description
+				$and		Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.
+				$not		Inverts the effect of a query expression and returns documents that do not match the query expression.
+				$nor		Joins query clauses with a logical NOR returns all documents that fail to match both clauses.
+				$or			Joins query clauses with a logical OR returns all documents that match the conditions of either clause.
+
+		Y la lista continúa...
 
 
 
