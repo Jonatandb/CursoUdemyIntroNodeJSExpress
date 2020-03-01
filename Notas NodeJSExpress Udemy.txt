@@ -767,6 +767,19 @@
 				data
 			})
 
+	25. Autenticación de un usuario
 
-
-
+		Hasta el momento en el archivo user-routes.js están las rutas para actualizar (/update) y eliminar un usuario (/delete), pero
+		éstas rutas no tienen ningún tipo de seguridad por lo que cualquiera podría consumir estas rutas y modificar la información
+		de un usuario y también eliminarlo.
+		Para darle seguridad a la API se debe crear una ruta de autenticación (/login).
+			La nueva ruta "/login" se define como POST, porque si se definiera como GET entonces la información de email y password
+			viajaría como texto plano y podría ser interceptada y podría ser hackeada sin importar si nosotros tenemos habilitado un
+			certificado SSL y estamos consumiendo nuestra API REST utilizando HTTPS. Por lo tanto si tenemos habilitado un certificado
+			SSL y estamos consumiendo nuestra API REST utilizando HTTPS es recomendable enviar la información sensible por POST.
+		Para buscar un usuario utilizamos el método findOne() del modelo User.
+			findOne() devuelve el primer usuario que coincida con la búsqueda, por ej:
+				const { email, password } = req.body
+				const user = await User.findOne({ email })
+			Luego verificamos que el password ingresado es válido, utilizando le método compare() de bcrypt:
+				const isOk = await bcrypt.compare(password, user.password)
