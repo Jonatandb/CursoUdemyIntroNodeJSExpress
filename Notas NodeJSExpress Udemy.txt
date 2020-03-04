@@ -824,3 +824,53 @@
 				Tercero, el tiempo en cuanto el token expirará
 			El token generado, que en este ejemplo se está devolviendo al navegador como valor de la propiedad data, será el que se
 			utilizará para consumir las rutas de /delete o /update.
+
+	27. Middlewares
+
+		Un middlewares es una función (que recibe tres parámetros: request, response y nextFunction) y luego de hacer su trabajo (ya
+			sea verificar algo, loguear, etc) ejecuta (si corresponde hacerlo) la función referenciada por el parámentro nextFunction.
+		Generalmente se crea una carpeta "middlewares" y dentro un archivo con el nombre del mismo, ej:
+			isAuth.js
+		Este archivo exporta el middleware (la función) para poder consumirla desde cualquier parte de nuestro proyecto.
+			Para aplicar este middleware por ejemplo en la ruta '/update', se debe hacer una importanción parcial del mismo:
+				const { isAuth } = require('../../middlewares/isAuth')
+			Y luego se debe pasar como segundo parámetro de la función post():
+				router.post('/update', isAuth, usersController.updateUser)
+		Configurado así, cada vez que se acceda a la ruta '/update', primero se va a ejecutar el middleware isAuth y si éste considera
+			que corresponde continuar con la ejecución entonces (por ejemplo verificando si el usuario tiene los permisos necesarios
+			para actualizar los datos) ejecutará: nextFunction(), lo que hará que efectivamente se ejecute así la funcionalidad
+			que está dentro del controlador usersController.updateUser().
+		Así como al método post() se le pasa luego del path el middlewares isAuth, se pueden pasar n cantidad de middlewares:
+				router.post('/update', isAuth, isValidHostname, logger, usersController.updateUser())
+		Es importante a la hora de crear nuestros middlewares que éstos devuelvan algo, esto es o (1) llamar a la función nextFunction
+			o (2) devolver una respuesta que indique por qué se detuvo la ejecución del request, ej:
+			response.status(###).send(...algún mensaje detallando el error o motivo de detención de la ejecución)
+		Cuando un middlewares ejecuta nextFunction() lo que se hace es que se pasa a la ejecución del siguiente middleware en la cadena
+			de middlewares. En este ejemplo, luego de ejecutarse isAuth se ejecutaría isValidHostname, luego logger y finalmente el
+			método updateUser() del controlador usersController.
+		Siempre un middleware tiene en el parámetro nextFunction una referencia a lo siguiente que se debería ejecutar si la ejecución
+			debe continuar.
+
+		Creación del middleware isAuth:
+			El mismo verifica que en el request venga un header llamado token
+			También verifica que el token sea válido y no haya expirado, haciendo uso del método jwt.verify(token, secret)
+				Éste método arroja una excepción ante cualquier problema con el token (vencido, inválido, etc)
+
+		Ahora que se creó el middleware isAuth, que verifica que en cada request realizado a la ruta '/update' venga en los headers
+			uno con nombre 'token', con un token jwt válido, se debe hacer cada request a esta ruta con un token obtenido al momento
+			de hacer login, sino no se puede ejecutar el update de los datos del usuario.
+			* Siempre que un request se agregar un header, el mismo debe estar todo en minúscula y no puede tener espacios (pero si
+				puede tener guiones, ej: token-de-acceso)
+
+		Creé también un middleware llamado isValidHostname, que valida que se esté consumiendo la API desde ciertos hosts válidos.
+			Incialmente solo verifica que los requests vengan desde localhost, pero luego se pueden agregar IP's deseadas específicas
+			a la lista de hostsnames considerados válidos de los que se desea que se pueda consultar a la API:
+				const isValidHostname = (req, res, next) => {
+					//console.log(req.hostname) // Acá viene por ejemplo 'localhost'.
+					const validHosts = ['localhost'] // Acá agregaría todas las IP's de los consumidores permitidos.
+					if (validHosts.includes(req.hostname)){
+						next()
+					} else {
+						res.status(403).send({ status: 'ACCESS_DENIED' })
+					}
+				}
