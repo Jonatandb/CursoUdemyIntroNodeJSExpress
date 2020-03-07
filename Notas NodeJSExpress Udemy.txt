@@ -881,3 +881,19 @@
 		Cuando se ejecuta en el middleware isAuth el método jwt.verify(token, secret), si el token es válido se obtiene como
 			resultado un objeto que contiene los datos que se agregaron al token cuando el mismo fue firmado en login().
 			Utilizando ese objeto obtengo el userId y el rol del usuario que se logueó y está utilizando el sistema.
+
+	29. Middlewares 3
+
+		Debido a que el middleware isAuth se ejecuta antes que el controller de updateUser, es posible guardar información
+			en el objeto request que luego va a poder ser accedida por el controller.
+			Haciendo esto, se puede guardar por ejemplo la información que fue incluída en el token y como el mismo posee
+				el userId del usuario que se desea actualizar, se puede omitir este dato en el body del request.
+		** Cuando se agregan datos al request, es muy importante recordar que no se puede hacer en propiedades existentes,
+			por lo tanto no se puede guardar información en:
+				request.body
+				request.headers
+				request.location
+				ni en ninguna otra propiedad de las demás reservadas.
+		Se debe usar siempre alguna nueva, por ej:
+			request.sessionData = { "clave": "valor"}
+
