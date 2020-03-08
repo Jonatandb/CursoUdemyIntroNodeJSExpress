@@ -1048,6 +1048,8 @@
 					npm instal -D @types/express
 				Esto instala la compatibilidad con TypeScript para la dependecia express.
 
+	34. Solucionando el error no-unused-vars
 
-
+		No tuve que hacer nada porque el error mencionado no se produjo nunca en mi entorno.
+		(Asumo que por estar trabajando con versiones más nuevas de Eslint y TypeScript que ya no lo tienen)
 
