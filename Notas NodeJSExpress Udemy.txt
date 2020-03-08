@@ -945,3 +945,91 @@
 					esos campos, o siempre se especifica un cero para que esos campos específicos no se traigan.
 
 		Implementé un logger que muestra resultados en la consola solo si no se está en modo productivo.
+
+	32. Configurando TypeScript en nuestro proyecto
+
+		TypeScript es un lenguaje tipado, que permite detectar errores antes de compilar el código.
+
+		Establece un standard de codificación ya que todos los métodos que reciban parámetros tendrán que tener
+			definido el tipo de dato de cada parámetro y si retornan un dato deberán especificar de que tipo es el retorno.
+
+		Instalando TypeScript globalmente en la pc de desarrollo:
+			-	npm install typescript -g
+
+		Instalando TypeScript como dependencia de desarrollo ya que no se utiliza en producción:
+			-	npm install -D ts-node typescript
+
+			ts-node	https://www.npmjs.com/package/ts-node
+
+				ts-node es un paquete npm que permite al usuario ejecutar archivos con código typescript directamente,
+				sin la necesidad de precompilación usando tsc. También proporciona REPL.
+
+				Instalación global:
+					npm install -g ts-node
+
+				* ts-node no incluye el compilador de escritura de tipos, por lo que es posible que haya que instalarlo:
+					npm install -g typescript
+
+				Ejecutando script:
+					Para ejecutar un script llamado main.ts:
+						// main.ts
+						console.log("Hello world");
+
+					Ejemplo de uso:
+						ts-node main.ts			Salida -> Hello world
+
+		Creando archivo de configuración de TypeScript para el proyecto:
+		-	tsc --init
+				Esto crea un archivo "tsconfig.json" el cual debe ser modificado, dejándolo así:
+					"target": "es6",		Especifico que utilizo ECMAScript 6.
+					"outDir": "./dist",		Especifico que convierta los archivos typescript a js en la carpeta dist.
+					"rootDir": "./src",		Especifico carpeta donde están los archivos typescript.
+					"moduleResolution": "node", Especifico que estoy utilizando Node.
+
+		Actualización de scripts en package.json:
+			"start": "node dist/index.js",		Esto se creará cuando se ejecute npm run build en base al código TypeScript.
+			"dev": "nodemon src/index.ts",
+			"build": "tsc -p .",				Esto transpila (convierte) todo el contenido typescript a js en la carpeta dist.
+
+		Reestructuré las carpetas para que todo el código quede dentro de la carpeta src.
+		Cree el archivo src/index.ts
+
+		Ejecuté npm run build y se generó la carpeta dist con el archivo index.js vacío, ya que el se generó en base al
+			archivo index.ts el cual aún no tiene contenido alguno.
+
+		Actualización de configuración de Eslint para que trabaje bien con TypeScript:
+			-	Eliminar el arhcivo .eslintrc.json para volverlo a generar.
+					- Previamente guardar las reglas en un archivo temporal, ya se que utilizarán en el nuevo archivo:
+						"arrow-parens": "off"
+			-	Generar el archivo .eslintrc.json ejecutando:
+					node_modules\.bin\eslint --init
+					Seleccionar:
+						- To check syntax, find problems, and enforce code style
+						- JavaScript modules (import/export)
+						- None of these
+						- Does your project use TypeScript?		Y
+						- (*) Node
+						- Use a popular style guide
+							Airbnb: https://github.com/airbnb/javascript
+						- JSON
+						- Would you like to install them now with npm?		Y
+			-	Ir al archivo de configuración de Eslint recién creado y pegar las reglas antes resguardadas:
+					"rules": {
+						"arrow-parens": "off"
+					}
+
+		Luego de esto, el archivo package.json debería quedar así:
+			"devDependencies": {
+				"@typescript-eslint/eslint-plugin": "^2.22.0",
+				"@typescript-eslint/parser": "^2.22.0",
+				"eslint": "^6.8.0",
+				"eslint-config-airbnb-base": "^14.0.0",
+				"eslint-plugin-import": "^2.20.1",
+				"nodemon": "^2.0.2",
+				"ts-node": "^8.6.2",
+				"typescript": "^3.8.3"
+			}
+			Todas estas dependencias se utilizan solo en desarrollo y no cuando se genera el build para producción.
+
+
+
