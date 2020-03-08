@@ -712,10 +712,10 @@
 			Para esto se utiliza el método .populate('campo que apunta a otro documento'):
 			const products = await Product.find().populate('user')
 			** Esto trae todos los campos del documento user vinculado.
-				Para traer solo los deseados, se pueden especificar:
+				Para traer solo los deseados, se pueden especificar los deseados separados por espacio:
 					const products = await Product.find().populate('user', 'username email data.age role')
-			**Al haber utilizado .populate(), se agrega a los documentos la propiedad user, por más que no haya sido especificada
-			en el select.
+			** Al haber utilizado .populate(), se agrega a los documentos la propiedad user, por más que no haya sido
+			especificada en el select.
 
 	23. Filtrando datos de mongoDB
 
@@ -924,4 +924,24 @@
 						"userId": "5e5acdc36a84c725dc3ef99e"
 					}
 
+	31. Recuperando los usuarios registrados
 
+		Cuando se obtienen los documentos de una colección de MongoDB, se puede utilizar el método find() que lo que
+			hará será devolver todos los documentos, pero de tales documentos se obtendrán todos sus campos y esto
+			es implica un error de seguridad por mostrarse el valor de campos con datos sensibles como password.
+				Esto puede evitarse especificando que campos se desean obtener mediante el agregado de la llamada al
+				método .select() luego de la llamada a find().
+				.select() permite que se le pase una cadena de texto con los nombres de los campos a obtener, separados
+				por espacio, ej:
+					Users.find().select("email data") // Todos los documentos devueltos solo tendrán estos campos
+				Pero si nuestro documento tiene muchos campos, es tedioso especificar todos y cada uno, por lo que se
+					puede utilizar una característica facilitada por el método select que es especificar mediante un
+					objeto JSON que campos serán traídos o cuales no, especificando un valor numérico para cada uno,
+					si tal campo debe ser traído se indicará con un uno, sino con un cero:
+						Users.find().select({ password: 0, __v: 0, role: 0}) // Ningún documento tendrá estos campos
+						En este caso esos tres campos no se devolverán cuando se obtengan los usuarios.
+					* Hay que tener en cuenta que no se puede mezclar la especificidad de campos a traer y campos que
+					no se desean traer, por lo tanto o siempre se indican con un valor de uno, para que se traigan solo
+					esos campos, o siempre se especifica un cero para que esos campos específicos no se traigan.
+
+		Implementé un logger que muestra resultados en la consola solo si no se está en modo productivo.
