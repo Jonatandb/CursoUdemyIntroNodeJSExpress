@@ -1031,5 +1031,23 @@
 			}
 			Todas estas dependencias se utilizan solo en desarrollo y no cuando se genera el build para producción.
 
+	33. Migrando a TypeScript parte 1
+
+		Reorganicé las carpetas nuevamente para eliminar la carpeta src de nivel superior innecesaria.
+
+		Comienzo de migrado de archivos .js a archivos .ts
+
+		Como con typescript se utiliza ECMAScript6, la importación de paquetes cambia de:
+			const express = require('express')
+		a:
+			import express from 'express'
+			* En este punto el IDE nos tira un error diciendo que no pudo encontrar la declaración del módulo
+				"express" y sugiere instalar:
+					npm instal @types/express	* Pero todos los que sean paquetes de compatibilidad deben
+				ser agregados como dependencias de desarrollo, con -D:
+					npm instal -D @types/express
+				Esto instala la compatibilidad con TypeScript para la dependecia express.
+
+
 
 
