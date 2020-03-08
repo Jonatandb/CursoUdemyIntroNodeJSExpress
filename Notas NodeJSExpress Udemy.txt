@@ -897,3 +897,31 @@
 		Se debe usar siempre alguna nueva, por ej:
 			request.sessionData = { "clave": "valor"}
 
+	30. Eliminando usuarios
+
+		Actualización del middleware isAuth, para que en caso de que el login del usuario sea correcto, se almacene
+			en la nueva propiedad sessionData del objeto request, además del userid, el rol (role):
+				req.sessionData = { userId: data.userId, role: data.role }
+
+		Creación de un nuevo middleware llamado isAdmin, el cual solo continúa con la ejecución cuando el rol del
+			usuario logueado es administrador.
+			Verifica la nueva propiedad role del objeto sessionData.
+
+		Desarrollo del cuerpo del controller deleteUser, el cual obtiene del body del request el valor de una nueva
+			propiedad llamada userId que debe tener el id del usuario a eliminar.
+			Luego, utilizando dicho id de usuario, se elimina el mismo y también los productos que tuviera asociados:
+				await User.findByIdAndRemove(userId)
+				await Product.deleteMany({ user: userId })
+
+		Para permitir que solo pueda eliminar un usuario un administrador, se configuró la ruta '/delete' como sigue:
+			router.post('/delete',	isValidHostname, isAuth, isAdmin, usersController.deleteUser)
+			donde solo se va a ejecutar la eliminación si:
+				- Se hace el post desde un hostname válido
+				- El usuario que hace el post especificó en los headers un token válido
+				- El usuario tiene el rol admin
+				- En el body del request se especificó el id del usuario mediante la propiedad userId:
+					{
+						"userId": "5e5acdc36a84c725dc3ef99e"
+					}
+
+
