@@ -1053,3 +1053,31 @@
 		No tuve que hacer nada porque el error mencionado no se produjo nunca en mi entorno.
 		(Asumo que por estar trabajando con versiones más nuevas de Eslint y TypeScript que ya no lo tienen)
 
+	35. Migrando a TypeScript parte 2
+
+		Explicación y uso de interfaces
+		Básicamente una interfaz define la estructura de un objeto
+		Se recomienda poner su nombre en PascarCase, como a las clases
+
+		Una interfaz puede tener campos de tipo de otra interfaz
+		También puede tener propiedades opcionales, esto se especifica con el signo de pregunta, de esta forma:
+			interface IUser {
+				name: string,
+				age: number,
+				nationality?: string
+			}
+
+		También se puede especificar que una propiedad será del tipo de una interfaz o null, con:
+			interface IUser {
+				name: string,
+				age: number,
+				sum: ISumData | null
+			}
+
+		Con el uso de interfaces se puede mejorar significativamente la calidad del código ya que es mucho
+		mas legible para a un método o función un objeto json con sus propiedades y sus valores correspondientes
+		que pasar algo como:
+			setUser("jasdro", 22, null, "0304034")  // Donde a simple vista no se entiende que es cada parámetro.
+
+
+
