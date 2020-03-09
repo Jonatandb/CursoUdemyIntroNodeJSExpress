@@ -5,12 +5,15 @@ import productsModel from '../../mongo/models/products'
 import logger from '../../utils/logger'
 import { Request, Response } from 'express'
 
-const expiresIn = process.env.TOKEN_EXPIRES_IN
-const jwtSecret = process.env.JWT_SECRET
-
 const login = async (req: Request, res: Response): Promise<void> => {
 	try {
 		logger('users-controller - login()')
+
+		const jwtSecret = process.env.JWT_SECRET
+		const expiresIn = process.env.TOKEN_EXPIRES_IN
+
+		logger('users-controller - login() - jwtSecret:', jwtSecret)
+		logger('users-controller - login() - expiresIn:', expiresIn)
 
 		const { email, password } = req.body
 
@@ -45,7 +48,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
 		}
 	} catch (e) {
 		res.status(500).send({ status: 'ERROR', message: e.message })
-		logger(`{status: 'ERROR', message: ${e.message}}`)
+		logger(`{ status: 'ERROR', message: ${e.message}}`)
 	}
 }
 
@@ -60,7 +63,7 @@ const getUsers = async (req: Request, res: Response): Promise<void> => {
 		res.send({ status: 'OK', data: users })
 	} catch (e) {
 		res.status(500).send({ status: 'ERROR', message: e.message })
-		logger(`{status: 'ERROR', message: ${e.message}}`)
+		logger(`{ status: 'ERROR', message: ${e.message}}`)
 	}
 }
 
@@ -110,7 +113,9 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 			status: 'ERROR',
 			message: error.message
 		})
-		logger(`{status: 'ERROR', message: ${error.message}}`)
+		logger(
+			`users-controller - createUser() - Error: {status: 'ERROR', message: ${error.message}}`
+		)
 	}
 }
 
@@ -133,7 +138,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 		}
 	} catch (error) {
 		res.status(500).send({ status: 'ERROR', message: error.message })
-		logger(`{status: 'ERROR', message: ${error.message}}`)
+		logger(`users-controller - deleteUser() - Error: ${error.message}}`)
 	}
 }
 
@@ -181,6 +186,7 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 				status: 'updateUser - ERROR',
 				message: error.message
 			})
+			logger('users-controller - updateUser() - Error:', error.message)
 		}
 	}
 }
