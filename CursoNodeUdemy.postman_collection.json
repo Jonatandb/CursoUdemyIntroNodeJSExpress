@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "3f18d8f9-c58e-4dc4-9ff2-e52ab6d02aab",
+		"name": "CursoNodeUdemy",
+		"description": "\r\nhttps://www.udemy.com/course/introduccion-al-desarrollo-backend-con-nodejs-y-express/\r\n\r\n\r\nRepositorio:\r\n\t\t\thttps://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Users - Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2ODA4MzEsImV4cCI6MTU4MzY4MTQzMX0.JFK4vBZM-HboHqk9H7Rg2Cp8VD4HkSxwmueCFYTlzF0"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/v1/users/get-all",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users - Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bff43d8d-706f-4f15-9559-cbf0d8de7034",
+								"exec": [
+									"",
+									"pm.test(\"Status response has OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"jonatandb@gmail.com\",\n\t\"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/users/login",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						},
+						"description": "POST Body raw JSON:\n\n{\n\t\"email\": \"jonatandb@gmail.com\",\n\t\"password\": \"123\"\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Users - Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"Nuevo usuario2\",\n\t\"email\": \"jonatandb2@gmail.com\",\n\t\"password\": \"123\",\n\t\"data\": {\n\t\t\"age\": 20,\n\t\t\"isMale\": true\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/users/create",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"create"
+							]
+						},
+						"description": "POST Body raw JSON\n{\n\t\"username\": \"Nuevo usuario2\",\n\t\"email\": \"jonatandb@gmail2.com\",\n\t\"password\": \"123\",\n\t\"data\": {\n\t\t\"age\": 20,\n\t\t\"isMale\": true\n\t}\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Users - Delete",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM3MjQ3MjUsImV4cCI6MTU4MzcyNTMyNX0.O44dxeMvMWCUkdxjJQuKNOKiR19AjNPFKxvGzBKUz6k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"5e6516c00f216141403b91f0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/users/delete",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users - Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "072b85e1-6b42-4273-b590-3fff636735a4",
+								"exec": [
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"User updated!\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzA2OTgsImV4cCI6MTU4MzY3MTI5OH0.U6VQVWDNZajgj9Qcl1Ynfq1pD3_bc9cIZJyp-_wEbQQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"Jonatandb\",\n    \"password\" : \"$2b$06$Mym8wX9.cjY1.h9bkOr9cugZlehMvx1OOrb/1T4XZR4Uu8RwzCwRW\",\n    \"email\" : \"jonatandb@gmail.com\",\n    \"data\" : {\n        \"age\" : 37.4,\n        \"isMale\" : true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/users/update",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update"
+							]
+						},
+						"description": "POST Body raw JSON:\n\n{\n\t\"userId\": \"5e5acdc36a84c725dc3ef99e\",\n\t\"UserId_note\": \"Debe ser un hash válido\",\n\t\"username\": \"David\",\n\t\"email\": \"David@gmail.com\",\n\t\"password\": \"$2b$06$Mym8wX9.cjY1.h9bkOr9cugZlehMvx1OOrb/1T4XZR4Uu8RwzCwRW\",\n\t\"data\": {\n\t\t\"age\": 37,\n\t\t\"isMale\": true\n\t}\n}"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Products - Get More Expensive than 100",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost/api/v1/products/getMoreExpensiveThan100",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"getMoreExpensiveThan100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost/api/v1/products/get-all",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - Get Cheaper than 100",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost/api/v1/products/getCheaperThan100",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"getCheaperThan100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - Get By UserId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost/api/v1/products/get-by-user/5e5acd54aae6193e9c8019da",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"get-by-user",
+								"5e5acd54aae6193e9c8019da"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Producto\",\n    \"description\": \"Description\",\n    \"price\": 432,\n    \"images\": [],\n    \"userId\": \"5e5acd54aae6193e9c8019da\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/products/create",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - Delete",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTVhY2Q1NGFhZTYxOTNlOWM4MDE5ZGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1ODM2NzkxMDcsImV4cCI6MTU4MzY3OTcwN30.PMtRIPKVyyayipIY8CSWRkZvUNm6wYpnyVTT_EjkP5M",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"5e650d4df222da3ea8be4da8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/v1/products/delete",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "21ca2fa6-d120-49f7-b48f-aab5dd52f18d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2bdbca9e-fc9b-4405-a0d1-5c3bee677aa7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
