@@ -1079,5 +1079,84 @@
 		que pasar algo como:
 			setUser("jasdro", 22, null, "0304034")  // Donde a simple vista no se entiende que es cada parámetro.
 
+	36. Migrando a TypeScript parte 3
+
+		Para trabajar con Mongoose con TypeScript es necesario definir interfaces de nuestros Schemas.
+		Las interfaces se pueden exportar para que estén disponibles desde cualquier parte de nuestra aplicación,
+			para hacerlo simplemente se debe anteponer la palabra "export" a la palabra "interface":
+				export interface IUser {
+					username: string
+					password: string
+					email: string
+					data: {
+						age: number
+						isMale: boolean
+					}
+					role: string
+				}
+			y luego se haría una importación parcial desde cualquier otro archivo que la requiera:
+				import { IUser } from './users'
+
+		Al momento de crear el modelo de Mongoose utilizando por ej. la interfaz IProduct, se debe especificar
+			el tipo con el que trabajará el modelo creado, esto se hace de la siguiente manera:
+				const productModel = model<IProduct>('Product', productSchema)
+			y para que esto no muestre el error de que la interfaz no extiende de Document, se debe hacer que la
+			interfaz haga justamente eso, extender desde Document, utilizando la palabra clave "extends", ej:
+				export interface IProduct extends Document {
+					title: string
+					description: string
+					price: number
+					images: Array<string> // También se puede poner: string[]
+					user: IUser | string
+				}
+
+		Cuando las funciones no devuelven nada, se debe especificar luego de los parentesis de la misma, dos puntos
+		y la palabra clave "void":
+				const miLogueador = (param: string): void => { console.log(param) }
+
+		Cuando la función es asíncrona y no devuelve nada no se puede utilizar ": void", en su lugar se debe utilizar:
+				const miLogueadorAsyncrono = async (param: string): Promise<void> => { await funcionAsync(param) }
+
+		Cuando el valor de una constante viene por ejemplo de el valor establecido en una variable de entorno, se
+			subraya dicha constante indicando que su valor podría ser undefined. Pero como estamos seguros de que
+			siempre va a tener un valor, por estar establecido el mismo en el archivo ".env" se puede indicar esto
+			agregando un signo de admiración al final del nombre de la constante al momento de utilizarla, por ej:
+				const valor = process.env.VALORESPECIAL
+				const miFunciónQueUsaValor = (): void => {
+					console.log(valor!) // De esta manera se indica a Typescript que siempre vamos tener dicho valor.
+				}
+
+		Casteo de datos
+			A veces eslint infiere que una variable puede ser de dos tipos, por ej. "string | string []", pero esto
+				no siempre está bien inferido, por lo que a veces es necesario castear la variable para reforzar el
+				tipo de datos que sabemos que contiene, esto se hace utilizando "as" así "variable as string", ej:
+					const { token } = req.headers  // Acá eslint infiere que token es "string | string []"
+					const data = jwt.verify(token as string, process.env.JWT_SECRET!)
+						jwt.verify(string, string) espera dos string, por lo que se requiere el casteo con "as".
+						También se puede ver el signo de admiración al final de JWT_SECRET, esto es para indicar que
+						estamos seguros de que esa variable va a tener un valor y no va a ser undefined.
+
+		Sobreescritura de una interfaz de un módulo:
+			Debido a que en el middleware isAuth se le está agregando una propiedad al objeto Request, que el mismo
+			originalmente no posee, es necesario sobreescribir su interfaz para indicar que ahora va a tener dicha
+			propiedad.
+			Esto se hace agregando esto en nuestro archivo principal "index.ts":
+				declare global {
+					namespace Express {
+						export interface Request {
+							sessionData: any
+						}
+					}
+				}
+			Una vez hecho esto, no se obtiene más el error que indicaba que no se podía agregar sessionData a Request.
+
+		Cuando se trabaja con objetos y sabemos que una variable o constante es de este tipo, se puede especificar el
+		tipo "any", esto significa que puede ser un string, un object, un boolean, etc:
+			const data: any = jwt.verify(token as string, process.env.JWT_SECRET!)
+			De esta forma, luego al consultar sus propiedades no obtenemos errores de Eslint diciendo que ese objeto
+			no posee las propiedades que intentamos acceder.
+
+
+
 
 
