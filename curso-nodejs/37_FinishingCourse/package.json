@@ -27,7 +27,7 @@
 	},
 	"homepage": "https://github.com/Jonatandb/CursoUdemyIntroNodeJSExpress#readme",
 	"dependencies": {
-		"bcrypt": "^4.0.0",
+		"bcrypt": "^5.0.0",
 		"body-parser": "^1.19.0",
 		"countries-list": "^2.5.1",
 		"dotenv": "^8.2.0",
